@@ -114,7 +114,7 @@ export default function AdminPage() {
             className="w-full sm:w-auto"
           >
             <Plus className="mr-2 h-4 w-4" />
-            Thêm Laptop Mới
+            Thêm Laptop
           </Button>
           <Button 
             onClick={() => router.push("/admin/phone-form")} 
@@ -122,7 +122,7 @@ export default function AdminPage() {
             variant="outline"
           >
             <Plus className="mr-2 h-4 w-4" />
-            Thêm Điện Thoại Mới
+            Thêm Điện Thoại
           </Button>
         </div>
       </div>
@@ -163,15 +163,57 @@ export default function AdminPage() {
         <TabsContent value="management" className="mt-6">
           <div className="grid md:grid-cols-3 gap-6">
             
+            <Card>
+              <CardHeader>
+                <CardTitle>Tin Tức (News)</CardTitle>
+                <CardDescription>
+                  Đăng tin tức mới cho trang chủ
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Tin tức (Apple trình làng MacBook Pro...) sẽ được hiển thị ở slide đầu trang chủ.
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  onClick={() => router.push("/admin/news-form")} 
+                  className="w-full"
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Tạo Tin Tức Mới
+                </Button>
+              </CardFooter>
+            </Card>
 
-
-
+            <Card>
+              <CardHeader>
+                <CardTitle>Bài Viết (Article)</CardTitle>
+                <CardDescription>
+                  Đăng bài viết chuyên sâu
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Bài viết (Kiến trúc ARM...) sẽ hiển thị trong mục "BÀI VIẾT MỚI NHẤT" ở trang chủ.
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  onClick={() => router.push("/admin/article-form")} 
+                  className="w-full"
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Tạo Bài Viết Mới
+                </Button>
+              </CardFooter>
+            </Card>
 
             <Card>
               <CardHeader>
                 <CardTitle>Phân quyền</CardTitle>
                 <CardDescription>
-                  Phần quyền admin cho user
+                  Phân quyền admin cho user
                 </CardDescription>
               </CardHeader>
               <CardContent>
