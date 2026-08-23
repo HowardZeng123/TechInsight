@@ -1,3 +1,4 @@
 .DS_Store
 .cursor
 .env.local
+node_modules/
