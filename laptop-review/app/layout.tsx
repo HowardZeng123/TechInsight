@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import InitialLoadingScreen from "@/components/initial-loading-screen"
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/context/theme-provider"
+import ChatWidget from "@/components/ChatWidget"
 import "./globals.css"
 
 
@@ -41,6 +42,7 @@ export default function RootLayout({
             {children}
           </div>
           <Toaster />
+          <ChatWidget />
         </ThemeProvider>
       </body>
     </html>
