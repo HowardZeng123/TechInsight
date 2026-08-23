@@ -8,7 +8,7 @@
 
 // // Cấu hình Firebase
 // const firebaseConfig = {
-//   apiKey: "AIzaSyAFSVL94k5zXkrAy5oQKbO7rT6W5fPAk4M",
+//   apiKey: "API key",
 //   authDomain: "laptop-review-all.firebaseapp.com",
 //   projectId: "laptop-review-all",
 //   storageBucket: "laptop-review-all.firebasestorage.app",
