@@ -1,4 +1,4 @@
-# 💻 Laptop Review Web
+# 💻 Tech Review Web
 
 Một nền tảng web đánh giá và chia sẻ trải nghiệm sử dụng laptop, được phát triển bằng **Next.js** và **Firebase**. Người dùng có thể đăng nhập, đăng bài đánh giá, bình luận và xem nhận xét của người khác để đưa ra quyết định mua hàng chính xác.
 
