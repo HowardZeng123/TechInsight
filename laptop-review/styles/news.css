@@ -1,0 +1,150 @@
+
+
+/* News content styling */
+.news-content {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #374151;
+  line-height: 1.7;
+}
+
+.news-content p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+.news-content p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.75rem;
+  line-height: 0.8;
+  font-weight: 700;
+  margin-right: 0.25rem;
+  margin-top: 0.1rem;
+  color: #1e40af;
+}
+
+.news-content strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+.news-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.news-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.news-content ul {
+  list-style-type: disc;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.news-content ol {
+  list-style-type: decimal;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.news-content li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.news-content li::marker {
+  color: #3b82f6;
+}
+
+.news-content blockquote {
+  border-left: 4px solid #3b82f6;
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  font-style: italic;
+  color: #4b5563;
+  background-color: #f9fafb;
+  border-radius: 0.25rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.news-content blockquote p {
+  margin: 0;
+}
+
+.news-content img {
+  border-radius: 0.5rem;
+  margin: 2rem auto;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-width: 100%;
+  height: auto;
+}
+
+/* Animation for modal */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+/* Fix for lists inside content */
+.news-content ol li,
+.news-content ul li {
+  position: relative;
+  padding-left: 0.25rem;
+}
+
+/* Improve spacing between list items */
+.news-content ol,
+.news-content ul {
+  margin-bottom: 1.5rem;
+}
+
+/* Style for quotes that appear in paragraphs */
+.news-content p q,
+.news-content p span:has(q) {
+  font-style: italic;
+  color: #4b5563;
+}
+
+/* Links */
+.news-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.news-content a:hover {
+  color: #1d4ed8;
+  text-decoration-thickness: 2px;
+}
