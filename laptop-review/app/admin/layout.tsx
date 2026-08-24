@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import AdminProtection from "@/components/auth/AdminProtection"
-import { Laptop, Smartphone, LayoutDashboard, Plus, Settings, ChevronDown, Newspaper, BookOpen } from "lucide-react"
+import { Laptop, Smartphone, LayoutDashboard, Plus, Settings, ChevronDown, Newspaper, BookOpen, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -54,9 +54,9 @@ export default function AdminLayout({
       icon: <Smartphone className="h-4 w-4 mr-2" />,
     },
     {
-      title: "Quản lý Tin Tức",
-      href: "/admin/manage-news",
-      icon: <Newspaper className="h-4 w-4 mr-2" />,
+      title: "Cộng Đồng (Forum)",
+      href: "/admin/manage-forum",
+      icon: <MessageSquare className="h-4 w-4 mr-2" />,
     },
     {
       title: "Quản lý Bài Viết",

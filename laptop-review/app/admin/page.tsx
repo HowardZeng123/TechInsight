@@ -165,23 +165,23 @@ export default function AdminPage() {
             
             <Card>
               <CardHeader>
-                <CardTitle>Tin Tức (News)</CardTitle>
+                <CardTitle>Cộng Đồng (Forum)</CardTitle>
                 <CardDescription>
-                  Đăng tin tức mới cho trang chủ
+                  Quản lý và kiểm duyệt bài đăng
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Tin tức (Apple trình làng MacBook Pro...) sẽ được hiển thị ở slide đầu trang chủ.
+                  Xem danh sách bài đăng của người dùng, xóa các bài vi phạm hoặc rác.
                 </p>
               </CardContent>
               <CardFooter>
                 <Button 
-                  onClick={() => router.push("/admin/news-form")} 
+                  onClick={() => router.push("/admin/manage-forum")} 
                   className="w-full"
                 >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Tạo Tin Tức Mới
+                  <Settings className="mr-2 h-4 w-4" />
+                  Kiểm Duyệt Cộng Đồng
                 </Button>
               </CardFooter>
             </Card>

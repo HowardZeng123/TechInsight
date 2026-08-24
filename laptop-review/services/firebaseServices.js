@@ -156,6 +156,21 @@ export const articleService = {
         ...article,
         createdAt: Timestamp.fromDate(new Date())
       });
+      
+      // Tạo thông báo chung cho mọi người
+      try {
+        await addDoc(collection(db, "notification"), {
+          title: `Bài viết mới: ${article.title}`,
+          time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date().toLocaleDateString('vi-VN'),
+          read: false,
+          type: 'general',
+          targetId: docRef.id,
+          link: "/all-articles"
+        });
+      } catch (notiError) {
+        console.error("Lỗi tạo thông báo:", notiError);
+      }
+      
       return docRef.id;
     } catch (error) {
       console.error("Error adding article: ", error);
@@ -282,6 +297,21 @@ export const laptopService = {
         ...laptop,
         createdAt: Timestamp.fromDate(new Date())
       });
+      
+      // Tạo thông báo chung cho mọi người
+      try {
+        await addDoc(collection(db, "notification"), {
+          title: `Sản phẩm mới: Laptop ${laptop.name}`,
+          time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date().toLocaleDateString('vi-VN'),
+          read: false,
+          type: 'general',
+          targetId: docRef.id,
+          link: "/laptops/" + docRef.id
+        });
+      } catch (notiError) {
+        console.error("Lỗi tạo thông báo:", notiError);
+      }
+      
       return docRef.id;
     } catch (error) {
       console.error("Error adding laptop: ", error);
@@ -396,6 +426,21 @@ export const smartphoneService = {
         ...smartphone,
         createdAt: Timestamp.fromDate(new Date())
       });
+      
+      // Tạo thông báo chung cho mọi người
+      try {
+        await addDoc(collection(db, "notification"), {
+          title: `Sản phẩm mới: Điện thoại ${smartphone.name}`,
+          time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date().toLocaleDateString('vi-VN'),
+          read: false,
+          type: 'general',
+          targetId: docRef.id,
+          link: "/phones/" + docRef.id
+        });
+      } catch (notiError) {
+        console.error("Lỗi tạo thông báo:", notiError);
+      }
+      
       return docRef.id;
     } catch (error) {
       console.error("Error adding smartphone: ", error);

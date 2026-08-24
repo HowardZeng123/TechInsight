@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { articleService } from "@/services/firebaseServices"
-import NewsModal from "@/components/news-modal"
+import ArticleModal from "@/components/article-modal"
 import Header from "@/components/common/header"
 import Footer from "@/components/common/footer"
 
@@ -149,7 +149,7 @@ export default function AllArticlesPage() {
 
       <Footer />
       
-      <NewsModal 
+      <ArticleModal 
         isOpen={isModalOpen} 
         onClose={closeArticleModal} 
         newsItem={selectedArticle}

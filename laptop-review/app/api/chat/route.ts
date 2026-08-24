@@ -1,6 +1,7 @@
 import { google } from "@ai-sdk/google";
 import { streamText } from "ai";
-import { laptopService, smartphoneService, newsService, articleService } from "@/services/firebaseServices";
+import { laptopService, smartphoneService, articleService } from "@/services/firebaseServices";
+import { forumService } from "@/lib/forumService";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -12,19 +13,19 @@ export async function POST(req: Request) {
   // Fetch data from Firebase
   let laptopData: any[] = [];
   let smartphoneData: any[] = [];
-  let newsData: any[] = [];
+  let forumData: any[] = [];
   let articleData: any[] = [];
 
   try {
-    const [laptops, phones, news, articles] = await Promise.all([
+    const [laptops, phones, forumPosts, articles] = await Promise.all([
       laptopService.getAll(),
       smartphoneService.getAll(),
-      newsService.getAll(),
+      forumService.getAllPosts(),
       articleService.getAll()
     ]);
     laptopData = laptops;
     smartphoneData = phones;
-    newsData = news;
+    forumData = forumPosts;
     articleData = articles;
   } catch (error) {
     console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
@@ -49,11 +50,11 @@ export async function POST(req: Request) {
       .join("\n")
     : "Hiện tại không có điện thoại nào trong kho.";
 
-  const newsSummary = newsData.length > 0
-    ? newsData
-      .map((n) => `- Tiêu đề: "${n.title}" | Tóm tắt: ${n.excerpt}`)
+  const forumSummary = forumData.length > 0
+    ? forumData
+      .map((f) => `- Chủ đề: "${f.title}" | Danh mục: ${f.category} | Nội dung: ${f.content}`)
       .join("\n")
-    : "Hiện tại không có tin tức nào.";
+    : "Hiện tại không có bài đăng cộng đồng nào.";
 
   const articleSummary = articleData.length > 0
     ? articleData
@@ -63,7 +64,7 @@ export async function POST(req: Request) {
 
   const systemPrompt = `
 Bạn là một trợ lý ảo tư vấn thân thiện, nhiệt tình và chuyên nghiệp của trang web TechInsight.
-Nhiệm vụ của bạn là giúp đỡ người dùng tìm kiếm laptop, điện thoại phù hợp với nhu cầu của họ, đồng thời cung cấp thông tin về các tin tức, bài viết công nghệ trên hệ thống.
+Nhiệm vụ của bạn là giúp đỡ người dùng tìm kiếm laptop, điện thoại phù hợp với nhu cầu của họ, đồng thời cung cấp thông tin về các bài viết công nghệ và thảo luận trong cộng đồng.
 
 Dưới đây là danh sách các LAPTOP hiện đang có sẵn trên hệ thống:
 ${laptopSummary}
@@ -71,15 +72,15 @@ ${laptopSummary}
 Dưới đây là danh sách các ĐIỆN THOẠI hiện đang có sẵn trên hệ thống:
 ${smartphoneSummary}
 
-Dưới đây là danh sách các TIN TỨC (News) hiện có trên hệ thống:
-${newsSummary}
+Dưới đây là danh sách các CỘNG ĐỒNG THẢO LUẬN (Forum) hiện có trên hệ thống:
+${forumSummary}
 
 Dưới đây là danh sách các BÀI VIẾT CHUYÊN SÂU (Articles) hiện có trên hệ thống:
 ${articleSummary}
 
 Hướng dẫn:
 1. Khi người dùng hỏi về sản phẩm (laptop hoặc điện thoại), hãy ưu tiên dựa vào danh sách sản phẩm trên hệ thống để tư vấn. Nếu họ có ngân sách và nhu cầu cụ thể, hãy chọn ra 1-2 sản phẩm phù hợp nhất.
-2. Khi người dùng hỏi về các chủ đề công nghệ, sửa lỗi, kiến thức, hãy kiểm tra danh sách Tin Tức và Bài Viết. Nếu có bài báo/bài viết nào phù hợp, hãy tóm tắt nội dung chính và đề xuất họ đọc bài viết đó (có thể trích dẫn Tiêu đề của bài viết để họ dễ tìm).
+2. Khi người dùng hỏi về các chủ đề công nghệ, sửa lỗi, kiến thức, hãy kiểm tra danh sách bài viết chuyên sâu. Nếu có người dùng thảo luận về chủ đề tương tự trên diễn đàn, có thể tóm tắt và đề xuất.
 3. Luôn trả lời bằng tiếng Việt một cách tự nhiên, lễ phép và thân thiện.
 4. Trình bày rõ ràng, sử dụng markdown (như in đậm, gạch đầu dòng) để dễ đọc.
 5. Nếu người dùng hỏi những thứ hoàn toàn không liên quan đến công nghệ, hãy lịch sự từ chối và hướng họ quay lại chủ đề chính.

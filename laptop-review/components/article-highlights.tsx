@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { articleService } from "../services/firebaseServices"
-import NewsModal from "./news-modal"
+import ArticleModal from "./article-modal"
 
 // Define the Article interface
 interface Article {
@@ -176,9 +176,9 @@ export default function ArticleHighlights() {
         ))}
       </div>
       
-      {/* Article modal - reusing the NewsModal component */}
+      {/* Article modal */}
       {selectedArticle && (
-        <NewsModal
+        <ArticleModal
           isOpen={isModalOpen}
           onClose={closeArticleModal}
           newsItem={selectedArticle}

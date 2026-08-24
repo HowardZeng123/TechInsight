@@ -8,7 +8,7 @@ import { laptopService, smartphoneService } from "@/services/firebaseServices"
 import { Laptop } from "@/types/laptop"
 import { Smartphone } from "@/types/smartphone"
 
-import LatestNews from "@/components/latest-news"
+
 import ArticleHighlights from "@/components/article-highlights"
 import FilterPanel, { FilterState } from "@/components/filter-panel"
 import PhoneFilterPanel, { PhoneFilterState } from "@/components/phone-filter-panel"
@@ -288,17 +288,7 @@ export default function Home() {
       )}
 
       <main className={`container px-4 py-8 mx-auto transition-all ${showLoginPrompt ? 'filter blur-sm' : ''}`}>
-        <section className="mb-12">
-          <LatestNews />
-          <div className="flex justify-center mt-6">
-            <Link href="/all-news" className="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center">
-              Xem tất cả tin tức
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-        </section>
+
 
         <section className="mb-12">
           <h2 className="mb-6 text-2xl font-bold dark:text-white">Gợi ý dành cho bạn</h2>

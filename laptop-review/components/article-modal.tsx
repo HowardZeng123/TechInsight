@@ -24,7 +24,7 @@ interface NewsModalProps {
   onSelectRelatedNews: (newsItem: NewsItem) => void;
 }
 
-export default function NewsModal({ 
+export default function ArticleModal({ 
   isOpen, 
   onClose, 
   newsItem, 

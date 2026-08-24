@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from "react"
-import { Heart, Laptop, Smartphone, Scale } from "lucide-react"
+import { Heart, Laptop, Smartphone, Scale, MessageSquare } from "lucide-react"
 import NotificationBell from "@/components/notification-bell"
 import SearchBar from '@/components/common/search-bar'
 import ThemeToggle from '@/components/common/theme-toggle'
@@ -31,23 +31,23 @@ export default function Header() {
   
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b shadow-sm dark:border-gray-800">
-      <div className="container flex items-center h-16 px-4 mx-auto">
-        <div className="flex items-center justify-between w-full">
+      <div className="w-full max-w-screen-2xl flex items-center h-16 px-4 mx-auto">
+        <div className="flex items-center justify-between w-full gap-4 lg:gap-8">
           {/* Logo */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center flex-shrink-0">
             <Link href="/" className="flex items-center space-x-2">
               <Image src="/TechInsight_Logo.png" alt="TechInsight Logo" width={40} height={40} className="rounded" />
-              <span className="text-xl font-bold dark:text-white">TechInsight</span>
+              <span className="text-xl font-bold dark:text-white hidden sm:block">TechInsight</span>
             </Link>
           </div>
 
           {/* Search bar */}
-          <div className="flex-1 max-w-lg">
+          <div className="flex-1 max-w-md mx-4">
             <SearchBar />
           </div>
 
           {/* Right-side buttons */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-4 flex-shrink-0">
             <Link href="/all-laptops" className="hidden md:flex items-center text-sm font-bold hover:text-gray-700 dark:text-gray-200 dark:hover:text-white">
               <Laptop className="w-5 h-5 mr-1" />
               <span>Laptop</span>
@@ -59,6 +59,10 @@ export default function Header() {
             <Link href="/compare-select" className="flex items-center text-sm font-bold hover:text-gray-700 dark:text-gray-200 dark:hover:text-white">
               <Scale className="w-5 h-5 mr-1" />
               <span>So sánh</span>
+            </Link>
+            <Link href="/forum" className="hidden md:flex items-center text-sm font-bold hover:text-gray-700 dark:text-gray-200 dark:hover:text-white">
+              <MessageSquare className="w-5 h-5 mr-1" />
+              <span>Cộng Đồng</span>
             </Link>
             
             <NotificationBell />
