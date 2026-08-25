@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PhoneCard from "@/components/phone-card";
 import { Heart, ChevronRight, Check } from "lucide-react";
+import { CommentSection } from "@/components/laptop-detail/sections/comment-section";
 
 export default function PhoneDetailPage() {
   const params = useParams();
@@ -18,6 +19,14 @@ export default function PhoneDetailPage() {
   const { phone, loading, error } = usePhoneData(id || '');
   const [similarPhones, setSimilarPhones] = useState<Smartphone[]>([]);
   const [loadingSimilar, setLoadingSimilar] = useState(false);
+  const [user, setUser] = useState<{ email: string; username: string; uid?: string } | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   useEffect(() => {
     if (!phone) return;
@@ -275,6 +284,16 @@ export default function PhoneDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* Binh luan */}
+        <CommentSection
+          laptopId={phone.id}
+          laptopName={phone.name}
+          currentUser={{
+            id: user?.uid || user?.email || "guest",
+            username: user?.username || "Khách",
+          }}
+        />
 
         {/* Similar Phones */}
         {similarPhones.length > 0 && (

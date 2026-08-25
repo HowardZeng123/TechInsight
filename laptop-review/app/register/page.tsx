@@ -53,9 +53,21 @@ export default function RegisterPage() {
       router.push("/");
     } catch (error: any) {
       console.error("Error registering user:", error.message);
+      
+      let errorMessage = "Có lỗi xảy ra trong quá trình đăng ký";
+      const errStr = String(error.message || error.code || "");
+      
+      if (errStr.includes("email-already-in-use")) {
+        errorMessage = "Email này đã được sử dụng, vui lòng chọn email khác.";
+      } else if (errStr.includes("weak-password")) {
+        errorMessage = "Mật khẩu quá yếu (cần tối thiểu 6 ký tự).";
+      } else if (errStr.includes("invalid-email")) {
+        errorMessage = "Định dạng email không hợp lệ.";
+      }
+      
       toast({
         title: "Đăng ký thất bại",
-        description: error.message || "Có lỗi xảy ra trong quá trình đăng ký",
+        description: errorMessage,
         variant: "destructive",
       });
     }

@@ -99,7 +99,7 @@ export default function ForumPostDetailPage({ params }: { params: { id: string }
         createdAt: new Date()
       };
       
-      setComments([...comments, newCommentObj]);
+      setComments([newCommentObj, ...comments]);
       setPost(prev => prev ? { ...prev, commentCount: (prev.commentCount || 0) + 1 } : null);
       setNewComment("");
       

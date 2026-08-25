@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { ThumbsUp } from "lucide-react"
-import { type Comment, getCommentsByLaptopId, addComment as addCommentToCollection } from "@/mock_data/comment-collection"
+import { productCommentService, type ProductComment } from "@/lib/productCommentService"
 import { 
   Dialog, 
   DialogContent, 
@@ -42,55 +42,58 @@ export function CommentSection({ laptop, laptopId: propLaptopId, laptopName: pro
   const displayName = propLaptopName || laptop?.name || "Sản phẩm"
 
   // State để lưu trữ comments
-  const [comments, setComments] = useState<Comment[]>([])
+  const [comments, setComments] = useState<ProductComment[]>([])
   const [newComment, setNewComment] = useState("")
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Kiểm tra xem người dùng đã đăng nhập chưa
   const isLoggedIn = currentUser.id !== "guest"
 
   // Lấy comments từ collection khi component mount hoặc laptopId thay đổi
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const local = localStorage.getItem(`comments_${laptopId}`);
-      if (local) {
-        const parsed = JSON.parse(local).map((c: any) => ({
-          ...c,
-          timestamp: new Date(c.timestamp),
-        }));
-        setComments(parsed);
-        return;
-      }
+    const fetchComments = async () => {
+      const dbComments = await productCommentService.getCommentsByProductId(laptopId)
+      setComments(dbComments)
     }
-    const laptopComments = getCommentsByLaptopId(laptopId);
-    setComments(laptopComments);
-  }, [laptopId]);
+    fetchComments()
+  }, [laptopId])
 
   // Hàm thêm comment mới
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (!isLoggedIn) {
       setIsLoginDialogOpen(true)
       return
     }
 
-    if (!newComment.trim()) return
+    if (!newComment.trim() || isSubmitting) return
 
-    const commentData = {
-      laptopId: laptopId,
-      userId: currentUser.id,
-      username: currentUser.username,
-      content: newComment,
-    }
+    try {
+      setIsSubmitting(true)
+      const commentData = {
+        productId: laptopId,
+        userId: currentUser.id,
+        username: currentUser.username,
+        content: newComment,
+      }
 
-    // Thêm comment vào collection
-    const newCommentObj = addCommentToCollection(commentData)
+      // Thêm comment vào Firestore
+      const newId = await productCommentService.addComment(commentData)
+      
+      const newCommentObj: ProductComment = {
+        ...commentData,
+        id: newId,
+        createdAt: new Date(),
+        likes: 0
+      }
 
-    // Cập nhật state
-    const updatedComments = [newCommentObj, ...comments];
-    setComments(updatedComments);
-    setNewComment("");
-    if (typeof window !== "undefined") {
-      localStorage.setItem(`comments_${laptopId}`, JSON.stringify(updatedComments));
+      // Cập nhật state
+      setComments([newCommentObj, ...comments]);
+      setNewComment("");
+    } catch (error) {
+      console.error("Lỗi:", error)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -111,11 +114,16 @@ export function CommentSection({ laptop, laptopId: propLaptopId, laptopName: pro
   }
 
   // Hàm thích comment
-  const handleLikeComment = (id: string) => {
-    // Cập nhật state
+  const handleLikeComment = async (id: string, currentLikes: number) => {
+    // Cập nhật state (optimistic UI update)
     setComments(comments.map((comment) => (comment.id === id ? { ...comment, likes: comment.likes + 1 } : comment)))
 
-    // Trong thực tế, bạn sẽ gọi API để cập nhật likes trong cơ sở dữ liệu
+    try {
+      await productCommentService.likeComment(id, currentLikes)
+    } catch (error) {
+      // Revert state nếu lỗi
+      setComments(comments.map((comment) => (comment.id === id ? { ...comment, likes: comment.likes - 1 } : comment)))
+    }
   }
 
   // Hướng dẫn người dùng đến trang đăng nhập
@@ -190,8 +198,8 @@ export function CommentSection({ laptop, laptopId: propLaptopId, laptopName: pro
                 <p className="mt-1 dark:text-gray-200">{comment.content}</p>
               </div>
               <div className="flex items-center gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
-                <span>{formatTimestamp(comment.timestamp)}</span>
-                <button className="font-medium hover:underline" onClick={() => handleLikeComment(comment.id)}>
+                <span>{formatTimestamp(comment.createdAt)}</span>
+                <button className="font-medium hover:underline" onClick={() => handleLikeComment(comment.id, comment.likes)}>
                   Thích
                 </button>
                 <div className="flex items-center gap-1">

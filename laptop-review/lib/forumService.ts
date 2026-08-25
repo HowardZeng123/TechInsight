@@ -185,7 +185,7 @@ export const forumService = {
       return comments.sort((a, b) => {
         const dateA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt?.seconds || 0);
         const dateB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt?.seconds || 0);
-        return dateA - dateB;
+        return dateB - dateA;
       });
     } catch (error) {
       console.error("Error getting comments:", error);
