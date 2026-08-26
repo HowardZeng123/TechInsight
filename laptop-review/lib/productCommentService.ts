@@ -53,6 +53,31 @@ export const productCommentService = {
     }
   },
 
+  // HACK: Lấy tất cả bình luận cho chatbot
+  getAllComments: async (): Promise<ProductComment[]> => {
+    try {
+      const q = query(collection(db, COLLECTION_NAME));
+      const querySnapshot = await getDocs(q);
+      const comments: ProductComment[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        comments.push({
+          id: doc.id,
+          productId: data.productId,
+          userId: data.userId,
+          username: data.username,
+          content: data.content,
+          createdAt: data.createdAt ? data.createdAt.toDate() : new Date(),
+          likes: data.likes || 0
+        });
+      });
+      return comments;
+    } catch (error) {
+      console.error("Lỗi lấy tất cả bình luận:", error);
+      return [];
+    }
+  },
+
   // Thêm bình luận mới
   addComment: async (commentData: Omit<ProductComment, "id" | "createdAt" | "likes">) => {
     try {

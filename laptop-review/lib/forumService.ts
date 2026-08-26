@@ -191,5 +191,20 @@ export const forumService = {
       console.error("Error getting comments:", error);
       throw error;
     }
+  },
+
+  // HACK: Add getAllComments for the chatbot
+  async getAllComments() {
+    try {
+      const q = query(collection(db, COMMENTS_COLLECTION));
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as ForumComment[];
+    } catch (error) {
+      console.error("Error getting all comments:", error);
+      return [];
+    }
   }
 };
