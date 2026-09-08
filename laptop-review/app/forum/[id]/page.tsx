@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
@@ -28,7 +28,9 @@ export default function ForumPostDetailPage({ params }: { params: { id: string }
   const [loading, setLoading] = useState(true);
   const [commenting, setCommenting] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [replyingTo, setReplyingTo] = useState<ForumComment | null>(null);
   const [user, setUser] = useState<{ uid: string; email: string; displayName: string } | null>(null);
+  const commentInputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -36,6 +38,14 @@ export default function ForumPostDetailPage({ params }: { params: { id: string }
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  const handleReplyClick = (comment: ForumComment) => {
+    setReplyingTo(comment);
+    if (commentInputRef.current) {
+      commentInputRef.current.focus();
+      commentInputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,25 +93,29 @@ export default function ForumPostDetailPage({ params }: { params: { id: string }
 
     setCommenting(true);
     try {
-      const commentId = await forumService.addComment(params.id, {
+      const commentPayload: any = {
         content: newComment,
         authorId: user.uid,
         authorName: user.displayName || user.email.split('@')[0],
-      });
+      };
+      if (replyingTo) {
+        commentPayload.parentId = replyingTo.id;
+      }
+
+      const commentId = await forumService.addComment(params.id, commentPayload);
       
       // Update local state
       const newCommentObj: ForumComment = {
         id: commentId,
         postId: params.id,
-        content: newComment,
-        authorId: user.uid,
-        authorName: user.displayName || user.email.split('@')[0],
+        ...commentPayload,
         createdAt: new Date()
       };
       
       setComments([newCommentObj, ...comments]);
       setPost(prev => prev ? { ...prev, commentCount: (prev.commentCount || 0) + 1 } : null);
       setNewComment("");
+      setReplyingTo(null);
       
       toast({ title: "Thành công", description: "Đã gửi bình luận." });
     } catch (error) {
@@ -185,7 +199,16 @@ export default function ForumPostDetailPage({ params }: { params: { id: string }
                   <AvatarFallback>{user ? user.email.charAt(0).toUpperCase() : "?"}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 space-y-3">
+                  {replyingTo && (
+                    <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-2 rounded-md">
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
+                        Đang phản hồi <strong>{replyingTo.authorName}</strong>
+                      </span>
+                      <Button variant="ghost" size="sm" onClick={() => setReplyingTo(null)} className="h-6 px-2">Hủy</Button>
+                    </div>
+                  )}
                   <Textarea 
+                    ref={commentInputRef}
                     placeholder={user ? "Viết bình luận của bạn..." : "Vui lòng đăng nhập để bình luận"}
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
@@ -208,28 +231,59 @@ export default function ForumPostDetailPage({ params }: { params: { id: string }
 
           {/* Comments list */}
           <div className="space-y-4">
-            {comments.map((comment) => (
-              <Card key={comment.id}>
-                <CardContent className="p-4">
-                  <div className="flex gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-gray-100">
-                        {comment.authorName.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-baseline mb-1">
-                        <span className="font-medium">{comment.authorName}</span>
-                        <span className="text-xs text-gray-500">{formatDate(comment.createdAt)}</span>
-                      </div>
-                      <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap text-sm">
-                        {comment.content}
+            {(() => {
+              const topLevelComments = comments.filter(c => !c.parentId);
+              
+              const getReplies = (parentId: string): ForumComment[] => {
+                const directReplies = comments.filter(c => c.parentId === parentId).reverse();
+                const allReplies: ForumComment[] = [];
+                directReplies.forEach(reply => {
+                  allReplies.push(reply);
+                  allReplies.push(...getReplies(reply.id!));
+                });
+                return allReplies;
+              };
+
+              const orderedComments: ForumComment[] = [];
+              topLevelComments.forEach(comment => {
+                orderedComments.push(comment);
+                orderedComments.push(...getReplies(comment.id!));
+              });
+
+              return orderedComments.map((comment) => (
+                <Card key={comment.id} className={comment.parentId ? "ml-8 sm:ml-12 border-l-4 border-l-blue-400 bg-blue-50/30 dark:bg-blue-900/10" : ""}>
+                  <CardContent className="p-4">
+                    <div className="flex gap-3">
+                      <Avatar className="w-10 h-10">
+                        <AvatarFallback className="bg-gray-100">
+                          {comment.authorName.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-baseline mb-1">
+                          <span className="font-medium">{comment.authorName}</span>
+                          <span className="text-xs text-gray-500">{formatDate(comment.createdAt)}</span>
+                        </div>
+                        {comment.parentId && (
+                          <div className="text-xs text-gray-400 mb-2">
+                            <span className="text-blue-500 mr-1">↳</span>
+                            Trả lời {comments.find(c => c.id === comment.parentId)?.authorName || 'ai đó'}
+                          </div>
+                        )}
+                        <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap text-sm">
+                          {comment.content}
+                        </div>
+                        {user && (
+                          <div className="mt-2 text-xs">
+                            <button onClick={() => handleReplyClick(comment)} className="text-blue-600 hover:text-blue-800 font-medium">Phản hồi</button>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ));
+            })()}
           </div>
         </div>
       </main>

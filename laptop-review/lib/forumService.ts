@@ -37,6 +37,7 @@ export interface ForumComment {
   authorName: string;
   authorAvatar?: string;
   createdAt: any;
+  parentId?: string; // ID of the comment being replied to
 }
 
 const POSTS_COLLECTION = "forum_posts";
