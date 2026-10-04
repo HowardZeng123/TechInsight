@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="vivoBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="110" y="30" width="180" height="430" rx="28" ry="28" fill="#3B82F6"/>
+  <rect x="114" y="34" width="172" height="422" rx="24" ry="24" fill="url(#vivoBlue)"/>
+
+  <!-- Sun Halo Ring -->
+  <circle cx="200" cy="145" r="64" fill="#090A0F" stroke="#93C5FD" stroke-width="3"/>
+  <circle cx="200" cy="145" r="58" fill="#18181B"/>
+
+  <!-- ZEISS Blue T* Logo -->
+  <text x="200" y="112" font-family="sans-serif" font-size="8" font-weight="bold" fill="#2563EB" text-anchor="middle">ZEISS T*</text>
+
+  <!-- 3 Big Lenses -->
+  <circle cx="175" cy="140" r="14" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="225" cy="140" r="14" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="200" cy="170" r="14" fill="#020617" stroke="#334155" stroke-width="2"/>
+
+  <!-- Vivo Logo -->
+  <text x="200" y="420" font-family="sans-serif" font-size="14" font-weight="bold" fill="#60A5FA" text-anchor="middle" letter-spacing="3">vivo</text>
+
+  <!-- Badge -->
+  <rect x="130" y="465" width="140" height="20" rx="10" fill="#1D4ED8"/>
+  <text x="200" y="479" font-family="sans-serif" font-size="10" font-weight="bold" fill="#FFF" text-anchor="middle">Vivo X100 Pro</text>
+</svg>

@@ -15,6 +15,8 @@ interface PerformanceComparisonChartProps {
   enableSorting?: boolean
   maxCpuScore?: number
   maxGpuScore?: number
+  cpuLabel?: string
+  gpuLabel?: string
 }
 
 export default function PerformanceComparisonChart({
@@ -23,10 +25,11 @@ export default function PerformanceComparisonChart({
   enableSorting = true,
   maxCpuScore = 20000,
   maxGpuScore = 15000,
+  cpuLabel = "Điểm CPU (Geekbench Multi-core)",
+  gpuLabel = "Điểm GPU / Đồ họa (3DMark)"
 }: PerformanceComparisonChartProps) {
   const { resolvedTheme } = useTheme()
 
-  // Transform the data for the generic comparison chart
   const transformedItems: ComparisonItem[] = items.map((item) => {
     return {
       id: item.id,
@@ -37,13 +40,13 @@ export default function PerformanceComparisonChart({
           value: item.cpuScore,
           unit: " điểm",
           percentage: Math.min((item.cpuScore / maxCpuScore) * 100, 100),
-          color: "#0ea5e9", // Changed to a more suitable blue for white background
+          color: "#0ea5e9",
         },
         gpuScore: {
           value: item.gpuScore,
           unit: " điểm",
           percentage: Math.min((item.gpuScore / maxGpuScore) * 100, 100),
-          color: "#10b981", // Changed to a more suitable green for white background
+          color: "#10b981",
         },
       },
     }
@@ -56,14 +59,14 @@ export default function PerformanceComparisonChart({
       metrics={[
         {
           id: "cpuScore",
-          label: "Điểm CPU (Geekbench Multi-core)",
+          label: cpuLabel,
           color: "#0ea5e9",
           unit: " điểm",
           maxValue: maxCpuScore,
         },
         {
           id: "gpuScore",
-          label: "Điểm GPU (3DMark)",
+          label: gpuLabel,
           color: "#10b981",
           unit: " điểm",
           maxValue: maxGpuScore,

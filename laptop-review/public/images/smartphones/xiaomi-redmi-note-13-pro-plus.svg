@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="redmiPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3E8FF"/>
+      <stop offset="50%" stop-color="#D8B4FE"/>
+      <stop offset="100%" stop-color="#C084FC"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="110" y="30" width="180" height="430" rx="26" ry="26" fill="#A855F7"/>
+  <rect x="114" y="34" width="172" height="422" rx="22" ry="22" fill="url(#redmiPurple)"/>
+
+  <!-- Camera Section Lines -->
+  <line x1="114" y1="170" x2="286" y2="170" stroke="#C084FC" stroke-width="1.5"/>
+
+  <!-- 200MP Big Lens -->
+  <circle cx="155" cy="80" r="18" fill="#18181B" stroke="#A855F7" stroke-width="3"/>
+  <circle cx="155" cy="80" r="10" fill="#6B21A8"/>
+
+  <!-- 2nd Lens -->
+  <circle cx="155" cy="130" r="14" fill="#18181B" stroke="#A855F7" stroke-width="2"/>
+  <circle cx="155" cy="130" r="7" fill="#6B21A8"/>
+
+  <!-- 3rd Lens & Flash -->
+  <circle cx="195" cy="130" r="8" fill="#18181B" stroke="#A855F7" stroke-width="1.5"/>
+  <circle cx="195" cy="80" r="6" fill="#FEF08A"/>
+
+  <!-- 200MP OIS Text -->
+  <text x="240" y="84" font-family="sans-serif" font-size="8" font-weight="bold" fill="#7E22CE">200MP OIS</text>
+  <text x="200" y="420" font-family="sans-serif" font-size="11" font-weight="bold" fill="#7E22CE" text-anchor="middle" letter-spacing="2">Redmi</text>
+
+  <!-- Badge -->
+  <rect x="120" y="465" width="160" height="20" rx="10" fill="#7E22CE"/>
+  <text x="200" y="479" font-family="sans-serif" font-size="10" font-weight="bold" fill="#FFF" text-anchor="middle">Redmi Note 13 Pro+</text>
+</svg>

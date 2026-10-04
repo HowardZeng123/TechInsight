@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, query, where, limit, orderBy } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +16,10 @@ import {
 
 type ComparisonOverviewProps = {
   laptops: any[];
+  category?: 'laptop' | 'phone';
 };
 
-export default function ComparisonOverview({ laptops }: ComparisonOverviewProps) {
+export default function ComparisonOverview({ laptops, category = 'laptop' }: ComparisonOverviewProps) {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [removedLaptopId, setRemovedLaptopId] = useState<string | null>(null);
@@ -27,7 +28,11 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Hàm xử lý khi người dùng muốn xóa laptop
+  const isPhone = category === 'phone';
+  const detailPrefix = isPhone ? '/phones' : '/laptops';
+  const collectionName = isPhone ? 'smartphones' : 'laptops';
+  const itemLabel = isPhone ? 'điện thoại' : 'laptop';
+
   const handleRemoveLaptop = (laptopId: string) => {
     const otherLaptop = laptops.find(laptop => laptop.id !== laptopId);
     setRemovedLaptopId(laptopId);
@@ -37,7 +42,6 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
     setIsModalOpen(true);
   };
 
-  // Hàm tìm kiếm laptop theo keyword
   const searchLaptops = async (keyword: string) => {
     if (!keyword.trim()) {
       setSearchResults([]);
@@ -46,28 +50,25 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
 
     setIsLoading(true);
     try {
-      const laptopsRef = collection(db, "laptops");
-      // Thực hiện tìm kiếm cả prefix và substring
-      const querySnapshot = await getDocs(laptopsRef);
+      const itemsRef = collection(db, collectionName);
+      const querySnapshot = await getDocs(itemsRef);
       
-      // Lọc kết quả ở client-side (vì Firestore không hỗ trợ tìm kiếm substring)
       const filteredResults = querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() }))
-        .filter(laptop => 
-          laptop.name.toLowerCase().includes(keyword.toLowerCase()) && 
-          laptop.id !== otherLaptopId // Loại trừ laptop đang còn lại trong so sánh
+        .filter(item => 
+          item.name.toLowerCase().includes(keyword.toLowerCase()) && 
+          item.id !== otherLaptopId
         )
-        .slice(0, 5); // Giới hạn 5 kết quả
+        .slice(0, 5);
       
       setSearchResults(filteredResults);
     } catch (error) {
-      console.error("Error searching laptops:", error);
+      console.error(`Error searching ${collectionName}:`, error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Khi người dùng thay đổi từ khóa tìm kiếm
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       searchLaptops(searchQuery);
@@ -76,14 +77,11 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery]);
 
-  // Hàm xử lý khi người dùng chọn laptop mới
   const handleSelectNewLaptop = (newLaptopId: string) => {
     if (otherLaptopId) {
-      // Chuyển hướng đến trang so sánh mới với laptop đã chọn và laptop mới
-      router.push(`/compare/${otherLaptopId}-vs-${newLaptopId}`);
+      router.push(`/compare/${otherLaptopId}-vs-${newLaptopId}?category=${category}`);
     } else {
-      // Nếu không có laptop nào còn lại, chuyển hướng đến trang chi tiết laptop mới
-      router.push(`/laptops/${newLaptopId}`);
+      router.push(`${detailPrefix}/${newLaptopId}`);
     }
     setIsModalOpen(false);
   };
@@ -91,14 +89,14 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
   return (
     <>
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-6 dark:text-white">Overview</h2>
+        <h2 className="text-2xl font-bold mb-6 dark:text-white">Tổng quan</h2>
 
         <div className="grid grid-cols-2 gap-8">
           {laptops.map((laptop) => (
-            <div key={laptop.id} className="text-center">
+            <div key={laptop.id} className="text-center flex flex-col items-center">
               <div className="relative w-full h-[200px] mb-4">
                 <Image
-                  src={laptop.image}
+                  src={laptop.image || "/placeholder.svg"}
                   alt={laptop.name}
                   fill
                   className="object-contain"
@@ -107,9 +105,9 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
               </div>
               <h3 className="text-xl font-bold mb-2 dark:text-white">{laptop.name}</h3>
               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">{laptop.price}</div>
-              <div className="flex justify-center space-x-2">
+              <div className="flex justify-center space-x-2 mt-auto">
                 <Link
-                  href={`/laptops/${laptop.id}`}
+                  href={`${detailPrefix}/${laptop.id}`}
                   className="inline-block bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-medium py-2 px-6 rounded"
                 >
                   Xem chi tiết
@@ -118,7 +116,7 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
                   onClick={() => handleRemoveLaptop(laptop.id)}
                   className="inline-block bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-medium py-2 px-6 rounded"
                 >
-                  Xóa laptop
+                  Xóa {itemLabel}
                 </button>
               </div>
             </div>
@@ -126,13 +124,12 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
         </div>
       </div>
 
-      {/* Modal tìm kiếm laptop mới */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-md dark:bg-gray-800">
           <DialogHeader>
-            <DialogTitle className="dark:text-white">Chọn laptop thay thế</DialogTitle>
+            <DialogTitle className="dark:text-white">Chọn {itemLabel} thay thế</DialogTitle>
             <DialogDescription className="dark:text-gray-300">
-              Tìm và chọn laptop để thay thế cho laptop đã xóa.
+              Tìm và chọn {itemLabel} để thay thế cho {itemLabel} đã xóa.
             </DialogDescription>
           </DialogHeader>
           
@@ -140,7 +137,7 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
             <div className="relative">
               <input
                 type="text"
-                placeholder="Nhập tên laptop cần tìm..."
+                placeholder={`Nhập tên ${itemLabel} cần tìm...`}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -156,7 +153,6 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
               )}
             </div>
             
-            {/* Kết quả tìm kiếm */}
             <div className="max-h-64 overflow-y-auto">
               {isLoading ? (
                 <div className="text-center py-4">
@@ -171,11 +167,12 @@ export default function ComparisonOverview({ laptops }: ComparisonOverviewProps)
                       className="py-3 px-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer flex items-center"
                       onClick={() => handleSelectNewLaptop(laptop.id)}
                     >
-                      <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700 mr-4">
-                        <img 
+                      <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700 mr-4 relative">
+                        <Image 
                           src={laptop.image || "/placeholder.svg"} 
                           alt={laptop.name}
-                          className="h-full w-full object-contain object-center"
+                          fill
+                          className="object-contain"
                         />
                       </div>
                       <div>

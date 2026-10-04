@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="a55Blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0F2FE"/>
+      <stop offset="100%" stop-color="#7DD3FC"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="110" y="30" width="180" height="430" rx="24" ry="24" fill="#38BDF8"/>
+  <rect x="114" y="34" width="172" height="422" rx="20" ry="20" fill="url(#a55Blue)"/>
+
+  <!-- Floating Vertical Lenses -->
+  <circle cx="145" cy="75" r="13" fill="#0F172A" stroke="#38BDF8" stroke-width="2"/>
+  <circle cx="145" cy="75" r="7" fill="#0284C7"/>
+
+  <circle cx="145" cy="115" r="13" fill="#0F172A" stroke="#38BDF8" stroke-width="2"/>
+  <circle cx="145" cy="115" r="7" fill="#0284C7"/>
+
+  <circle cx="145" cy="155" r="13" fill="#0F172A" stroke="#38BDF8" stroke-width="2"/>
+  <circle cx="145" cy="155" r="7" fill="#0284C7"/>
+
+  <!-- Flash -->
+  <circle cx="175" cy="75" r="5" fill="#FEF08A"/>
+
+  <!-- Samsung Logo -->
+  <text x="200" y="410" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0284C7" text-anchor="middle" letter-spacing="3">SAMSUNG</text>
+
+  <!-- Badge -->
+  <rect x="130" y="465" width="140" height="20" rx="10" fill="#0284C7"/>
+  <text x="200" y="479" font-family="sans-serif" font-size="10" font-weight="bold" fill="#FFF" text-anchor="middle">Galaxy A55 5G</text>
+</svg>

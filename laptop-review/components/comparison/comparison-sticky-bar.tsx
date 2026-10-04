@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface ComparisonStickyBarProps {
   selectedIds: (number | string)[]
@@ -23,12 +24,10 @@ export default function ComparisonStickyBar({
 }: ComparisonStickyBarProps) {
   const [isMounted, setIsMounted] = useState(false)
   
-  // Get selected items
   const selectedItems = itemsData.filter(item => 
-    selectedIds.includes(item.id)
+    selectedIds.includes(item.id.toString()) || selectedIds.includes(item.id)
   )
   
-  // Calculate comparison URL
   const comparisonUrl = selectedIds.length >= 2 
     ? `/compare/${selectedIds.join('-vs-')}?category=${category}` 
     : "#"
@@ -51,11 +50,15 @@ export default function ComparisonStickyBar({
           <div className="flex gap-3">
             {selectedItems.map(item => (
               <div key={item.id} className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                <div className="relative w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded overflow-hidden flex-shrink-0">
+                  {item.image ? (
+                    <Image src={item.image} alt={item.name} fill className="object-contain" />
+                  ) : null}
+                </div>
                 <span className="text-sm font-medium dark:text-white line-clamp-1 max-w-[150px]">{item.name}</span>
                 <button 
                   onClick={() => onRemove(item.id)}
-                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 ml-1"
                   aria-label="Remove item"
                 >
                   <X className="w-4 h-4" />

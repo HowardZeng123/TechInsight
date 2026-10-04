@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="ip16Frame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C5B39C"/>
+      <stop offset="50%" stop-color="#9E8E78"/>
+      <stop offset="100%" stop-color="#786B58"/>
+    </linearGradient>
+    <linearGradient id="ip16Back" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B8A793"/>
+      <stop offset="100%" stop-color="#8F806D"/>
+    </linearGradient>
+    <linearGradient id="ip16Screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Front -->
+  <rect x="30" y="30" width="160" height="430" rx="30" ry="30" fill="url(#ip16Frame)"/>
+  <rect x="34" y="34" width="152" height="422" rx="26" ry="26" fill="url(#ip16Screen)"/>
+  <!-- Dynamic Island -->
+  <rect x="85" y="45" width="50" height="14" rx="7" fill="#000"/>
+  <!-- Screen Glow -->
+  <circle cx="110" cy="220" r="60" fill="rgba(217, 119, 6, 0.15)"/>
+  <circle cx="110" cy="260" r="40" fill="rgba(251, 191, 36, 0.15)"/>
+
+  <!-- Back -->
+  <rect x="210" y="30" width="160" height="430" rx="30" ry="30" fill="url(#ip16Frame)"/>
+  <!-- Camera Control Button on Right Side -->
+  <rect x="370" y="320" width="4" height="30" rx="2" fill="#574C3E"/>
+  <!-- Power & Volume Buttons -->
+  <rect x="206" y="110" width="4" height="35" rx="2" fill="#574C3E"/>
+  <rect x="206" y="155" width="4" height="35" rx="2" fill="#574C3E"/>
+  <!-- Action Button -->
+  <rect x="206" y="75" width="4" height="20" rx="2" fill="#D97706"/>
+
+  <rect x="214" y="34" width="152" height="422" rx="26" ry="26" fill="url(#ip16Back)"/>
+
+  <!-- Camera Island -->
+  <rect x="224" y="44" width="75" height="75" rx="18" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+  <!-- Lenses -->
+  <circle cx="246" cy="64" r="14" fill="#1C1917" stroke="#786B58" stroke-width="2"/>
+  <circle cx="246" cy="64" r="8" fill="#0C0A09"/>
+  
+  <circle cx="246" cy="98" r="14" fill="#1C1917" stroke="#786B58" stroke-width="2"/>
+  <circle cx="246" cy="98" r="8" fill="#0C0A09"/>
+
+  <circle cx="278" cy="81" r="14" fill="#1C1917" stroke="#786B58" stroke-width="2"/>
+  <circle cx="278" cy="81" r="8" fill="#0C0A09"/>
+
+  <circle cx="278" cy="56" r="5" fill="#FEF08A"/>
+  <circle cx="278" cy="106" r="4" fill="#444"/>
+
+  <!-- Apple Logo -->
+  <path d="M 290 235 C 290 230 294 227 298 227 C 295 222 289 222 287 222 C 282 221 277 225 275 225 C 272 225 268 222 264 222 C 258 222 252 226 249 232 C 243 243 247 259 253 267 C 256 271 259 276 264 276 C 268 275 270 273 275 273 C 280 273 281 275 285 275 C 290 275 293 271 296 267 C 299 262 301 257 301 257 C 300 256 290 252 290 235 Z" fill="#6B5E4D"/>
+  <path d="M 284 220 C 286 217 288 213 287 209 C 283 209 279 212 277 215 C 275 218 274 222 275 226 C 279 226 283 223 284 220 Z" fill="#6B5E4D"/>
+
+  <!-- Label Badge -->
+  <rect x="230" y="465" width="120" height="20" rx="10" fill="#27272A"/>
+  <text x="290" y="479" font-family="sans-serif" font-size="10" font-weight="bold" fill="#F59E0B" text-anchor="middle">iPhone 16 Pro Max</text>
+</svg>

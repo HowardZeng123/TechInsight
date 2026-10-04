@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="s24Body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4E54"/>
+      <stop offset="50%" stop-color="#34373C"/>
+      <stop offset="100%" stop-color="#212326"/>
+    </linearGradient>
+    <linearGradient id="s24Screen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1c2541"/>
+      <stop offset="50%" stop-color="#0b132b"/>
+      <stop offset="100%" stop-color="#000814"/>
+    </linearGradient>
+    <linearGradient id="s24Frame" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A8E94"/>
+      <stop offset="50%" stop-color="#D1D5DB"/>
+      <stop offset="100%" stop-color="#6B7280"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left: Phone Front Screen -->
+  <rect x="30" y="40" width="160" height="420" rx="8" ry="8" fill="url(#s24Frame)" stroke="#555" stroke-width="2"/>
+  <rect x="34" y="44" width="152" height="412" rx="5" ry="5" fill="url(#s24Screen)"/>
+  <!-- Front Punch Hole Camera -->
+  <circle cx="110" cy="58" r="4" fill="#000" stroke="#222" stroke-width="1"/>
+  <!-- Wallpaper Art -->
+  <polygon points="40,300 110,180 180,350" fill="rgba(67, 97, 238, 0.25)"/>
+  <polygon points="60,400 130,220 180,420" fill="rgba(114, 9, 183, 0.2)"/>
+  <!-- Samsung Logo Text on Screen -->
+  <text x="110" y="440" font-family="sans-serif" font-size="9" font-weight="bold" fill="#718096" text-anchor="middle" letter-spacing="2">SAMSUNG</text>
+
+  <!-- Right: Phone Back (Titanium Finish) -->
+  <rect x="210" y="40" width="160" height="420" rx="8" ry="8" fill="url(#s24Frame)"/>
+  <rect x="214" y="44" width="152" height="412" rx="5" ry="5" fill="url(#s24Body)"/>
+  
+  <!-- Rear Camera Lenses (Floating Rings) -->
+  <!-- Top Left Main Camera -->
+  <circle cx="245" cy="85" r="16" fill="#151719" stroke="#9CA3AF" stroke-width="3"/>
+  <circle cx="245" cy="85" r="10" fill="#090A0B"/>
+  <circle cx="243" cy="83" r="4" fill="#2563EB" opacity="0.6"/>
+
+  <!-- Middle Left Ultra Wide -->
+  <circle cx="245" cy="130" r="16" fill="#151719" stroke="#9CA3AF" stroke-width="3"/>
+  <circle cx="245" cy="130" r="10" fill="#090A0B"/>
+  <circle cx="243" cy="128" r="4" fill="#2563EB" opacity="0.6"/>
+
+  <!-- Bottom Left Periscope Telephoto 5x -->
+  <circle cx="245" cy="175" r="16" fill="#151719" stroke="#9CA3AF" stroke-width="3"/>
+  <rect x="238" y="168" width="14" height="14" rx="2" fill="#090A0B"/>
+
+  <!-- Top Right 3x Telephoto -->
+  <circle cx="285" cy="85" r="10" fill="#151719" stroke="#9CA3AF" stroke-width="2"/>
+  <circle cx="285" cy="85" r="6" fill="#090A0B"/>
+
+  <!-- Flash & Laser AF -->
+  <circle cx="285" cy="120" r="6" fill="#FEF08A" stroke="#9CA3AF" stroke-width="1.5"/>
+  <circle cx="285" cy="145" r="5" fill="#3B82F6" opacity="0.8"/>
+
+  <!-- S-Pen Slot Indicator at Bottom -->
+  <rect x="225" y="448" width="22" height="4" rx="2" fill="#111" stroke="#6B7280" stroke-width="1"/>
+  <!-- Samsung Back Logo -->
+  <text x="290" y="410" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6B7280" text-anchor="middle" letter-spacing="3">SAMSUNG</text>
+  <!-- Model Badge -->
+  <rect x="230" y="465" width="120" height="20" rx="10" fill="#1E293B"/>
+  <text x="290" y="479" font-family="sans-serif" font-size="10" font-weight="bold" fill="#60A5FA" text-anchor="middle">Galaxy S24 Ultra</text>
+</svg>

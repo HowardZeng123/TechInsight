@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="pixelBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E2E8F0"/>
+      <stop offset="100%" stop-color="#CBD5E1"/>
+    </linearGradient>
+    <linearGradient id="pixelBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Body -->
+  <rect x="110" y="30" width="180" height="430" rx="32" ry="32" fill="#94A3B8"/>
+  <rect x="114" y="34" width="172" height="422" rx="28" ry="28" fill="url(#pixelBody)"/>
+
+  <!-- Signature Horizontal Camera Bar Pill -->
+  <rect x="124" y="80" width="152" height="48" rx="24" fill="url(#pixelBar)" stroke="#94A3B8" stroke-width="2"/>
+
+  <!-- Camera Glass Window Inside Bar -->
+  <rect x="134" y="90" width="90" height="28" rx="14" fill="#090A0F"/>
+
+  <!-- Lenses inside camera bar -->
+  <circle cx="152" cy="104" r="9" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+  <circle cx="152" cy="104" r="5" fill="#0284C7"/>
+
+  <circle cx="178" cy="104" r="9" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+  <circle cx="178" cy="104" r="5" fill="#0284C7"/>
+
+  <!-- Periscope Lens -->
+  <rect x="198" y="98" width="12" height="12" rx="2" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+
+  <!-- Flash & Thermometer Sensor Right -->
+  <circle cx="244" cy="104" r="5" fill="#FEF08A"/>
+  <circle cx="260" cy="104" r="4" fill="#64748B"/>
+
+  <!-- Google "G" Logo -->
+  <path d="M 200 260 C 212 260 220 252 220 240 L 200 240 L 200 247 L 213 247 C 211 253 206 255 200 255 C 192 255 186 248 186 240 C 186 232 192 225 200 225 C 204 225 208 227 211 229 L 216 224 C 212 220 206 218 200 218 C 188 218 178 228 178 240 C 178 252 188 262 200 260 Z" fill="#475569"/>
+
+  <!-- Badge -->
+  <rect x="130" y="465" width="140" height="20" rx="10" fill="#334155"/>
+  <text x="200" y="479" font-family="sans-serif" font-size="10" font-weight="bold" fill="#38BDF8" text-anchor="middle">Pixel 9 Pro XL</text>
+</svg>

@@ -16,16 +16,21 @@ interface BatteryComparisonChartProps {
   title?: string
   items: BatteryComparisonItem[]
   enableSorting?: boolean
+  unit?: string
+  capacityLabel?: string
+  maxCapacity?: number
 }
 
 export default function BatteryComparisonChart({
   title = "So sánh thời gian dùng pin",
   items,
   enableSorting = true,
+  unit = " Wh",
+  capacityLabel = "Dung lượng pin (Wh)",
+  maxCapacity = 100
 }: BatteryComparisonChartProps) {
   const { resolvedTheme } = useTheme()
   
-  // Transform the data for the generic comparison chart
   const transformedItems: ComparisonItem[] = items.map((item) => {
     const totalMinutes = item.batteryLife.hours * 60 + item.batteryLife.minutes
 
@@ -37,16 +42,14 @@ export default function BatteryComparisonChart({
         batteryLife: {
           value: totalMinutes,
           displayValue: `${item.batteryLife.hours}g ${item.batteryLife.minutes}p`,
-          // Assuming the max battery life is 12 hours (720 minutes)
           percentage: Math.min((totalMinutes / 720) * 100, 100),
-          color: "#f43f5e", // Changed to a more suitable color for white background
+          color: "#f43f5e",
         },
         batteryCapacity: {
           value: item.batteryCapacity,
-          unit: " Wh",
-          // Assuming the max battery capacity is 100 Wh
-          percentage: Math.min((item.batteryCapacity / 100) * 100, 100),
-          color: "#8b5cf6", // Kept purple but slightly adjusted
+          unit: unit,
+          percentage: Math.min((item.batteryCapacity / maxCapacity) * 100, 100),
+          color: "#8b5cf6",
         },
       },
     }
@@ -59,16 +62,16 @@ export default function BatteryComparisonChart({
       metrics={[
         {
           id: "batteryLife",
-          label: "Thời gian test ứng dụng văn phòng",
+          label: "Thời gian test ứng dụng / dùng thực tế",
           color: "#f43f5e",
-          maxValue: 720, // 12 hours in minutes
+          maxValue: 720,
         },
         {
           id: "batteryCapacity",
-          label: "Dung lượng pin (Wh)",
+          label: capacityLabel,
           color: "#8b5cf6",
-          unit: " Wh",
-          maxValue: 100,
+          unit: unit,
+          maxValue: maxCapacity,
         },
       ]}
       sortOptions={{
