@@ -71,7 +71,7 @@ export default function ChatWidget() {
                   >
                     {m.role === "user" ? (
                       <div className="text-sm whitespace-pre-wrap break-words">
-                        {m.parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('') || m.text || m.content || ""}
+                        {(m as any).content || (m as any).text || (m as any).parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('') || ""}
                       </div>
                     ) : (
                       <div className="prose prose-sm dark:prose-invert max-w-none text-sm">
@@ -93,7 +93,7 @@ export default function ChatWidget() {
                             ),
                           }}
                         >
-                          {m.parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('') || m.text || m.content || ""}
+                          {(m as any).content || (m as any).text || (m as any).parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('') || ""}
                         </ReactMarkdown>
                       </div>
                     )}
